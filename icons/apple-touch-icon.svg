@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Simple Clock">
+  <rect width="180" height="180" rx="34" fill="#101820"/>
+  <circle cx="90" cy="98" r="54" fill="#18242d" stroke="#41d6a4" stroke-width="10"/>
+  <path d="M77 27h26v16H77z" fill="#41d6a4"/>
+  <path d="M90 67v35l25 15" fill="none" stroke="#f5f7f8" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="90" cy="98" r="5" fill="#ffc857"/>
+</svg>
