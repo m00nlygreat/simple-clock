@@ -19,7 +19,9 @@
 }
 
 body {
+  min-width: 0;
   min-height: 100vh;
+  min-height: 100dvh;
   margin: 0;
   background:
     radial-gradient(circle at top left, rgba(65, 214, 164, 0.18), transparent 34rem),
@@ -34,12 +36,14 @@ button {
 .app-shell {
   display: grid;
   min-height: 100vh;
+  min-height: 100dvh;
   place-items: center;
   padding: 24px;
 }
 
 .stopwatch {
   width: min(100%, 520px);
+  min-width: 0;
   padding: 28px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
@@ -54,6 +58,12 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  min-width: 0;
+}
+
+.topbar > div,
+.laps-header h2 {
+  min-width: 0;
 }
 
 .eyebrow {
@@ -73,6 +83,7 @@ h2 {
 h1 {
   font-size: clamp(2rem, 9vw, 3.75rem);
   line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 h2 {
@@ -102,9 +113,10 @@ h2 {
 
 .time-main {
   font-variant-numeric: tabular-nums;
-  font-size: clamp(3rem, 15vw, 6rem);
+  font-size: clamp(2.25rem, 16vw, 6rem);
   font-weight: 800;
   line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 .time-sub {
@@ -176,6 +188,7 @@ h2 {
   padding: 0;
   overflow: auto;
   list-style: none;
+  scrollbar-width: thin;
 }
 
 .lap-item,
@@ -189,18 +202,21 @@ h2 {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(16, 24, 32, 0.5);
+  min-width: 0;
 }
 
 .lap-index,
 .lap-split {
   color: var(--muted);
   font-variant-numeric: tabular-nums;
+  min-width: 0;
 }
 
 .lap-time {
   justify-self: end;
   font-variant-numeric: tabular-nums;
   font-weight: 700;
+  min-width: 0;
 }
 
 .empty-state {
@@ -224,5 +240,129 @@ h2 {
 
   .controls {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 320px) {
+  .app-shell {
+    padding: 8px;
+  }
+
+  .stopwatch {
+    padding: 14px;
+  }
+
+  .topbar,
+  .laps-header {
+    gap: 10px;
+  }
+
+  h1 {
+    font-size: clamp(1.65rem, 13vw, 2.4rem);
+  }
+
+  .status-pill {
+    min-width: 0;
+    padding: 6px 8px;
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+
+  .time-panel {
+    margin: 24px 0 16px;
+    padding: 20px 10px;
+  }
+
+  .time-main {
+    font-size: clamp(2rem, 18vw, 3.5rem);
+  }
+
+  .button {
+    min-height: 42px;
+  }
+
+  .laps {
+    margin-top: 20px;
+  }
+
+  .lap-item,
+  .empty-state {
+    grid-template-columns: auto 1fr;
+    gap: 6px 8px;
+    min-height: 40px;
+    padding: 9px 10px;
+    font-size: 0.88rem;
+  }
+
+  .lap-time {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 240px) {
+  .app-shell {
+    align-items: stretch;
+    padding: 0;
+  }
+
+  .stopwatch {
+    width: 100%;
+    min-height: 100dvh;
+    padding: 10px;
+    border-width: 0;
+    border-radius: 0;
+  }
+
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .status-pill {
+    justify-self: start;
+  }
+
+  .eyebrow,
+  .time-sub,
+  .status-pill,
+  .text-button {
+    font-size: 0.68rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 0.9rem;
+  }
+
+  .time-panel {
+    margin: 18px 0 12px;
+    padding: 16px 6px;
+  }
+
+  .time-main {
+    font-size: clamp(1.75rem, 20vw, 2.75rem);
+  }
+
+  .controls {
+    gap: 8px;
+  }
+
+  .button {
+    min-height: 38px;
+    font-size: 0.86rem;
+  }
+
+  .lap-list {
+    gap: 6px;
+  }
+
+  .lap-item,
+  .empty-state {
+    padding: 8px;
+    font-size: 0.78rem;
   }
 }
