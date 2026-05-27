@@ -1,13 +1,13 @@
 const STORAGE_KEY = "simple-clock-stopwatch-state";
+const CLICK_DELAY_MS = 220;
 
 const elapsedTime = document.querySelector("#elapsed-time");
-const toggleButton = document.querySelector("#toggle-button");
-const resetButton = document.querySelector("#reset-button");
 
 let elapsedBeforeStart = 0;
 let startedAt = 0;
 let isRunning = false;
 let frameId = 0;
+let clickTimer = 0;
 
 function now() {
   return performance.now();
@@ -34,12 +34,14 @@ function formatDuration(milliseconds) {
 }
 
 function saveState() {
-  const state = {
-    elapsedBeforeStart: totalElapsed(),
-    isRunning,
-    savedAt: Date.now(),
-  };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({
+      elapsedBeforeStart: totalElapsed(),
+      isRunning,
+      savedAt: Date.now(),
+    }),
+  );
 }
 
 function loadState() {
@@ -63,16 +65,6 @@ function renderTime() {
   elapsedTime.textContent = formatDuration(totalElapsed());
 }
 
-function renderControls() {
-  toggleButton.textContent = isRunning ? "정지" : "시작";
-  toggleButton.classList.toggle("is-running", isRunning);
-}
-
-function render() {
-  renderTime();
-  renderControls();
-}
-
 function tick() {
   renderTime();
   frameId = requestAnimationFrame(tick);
@@ -84,7 +76,6 @@ function startTimer(shouldSave = true) {
   startedAt = now();
   cancelAnimationFrame(frameId);
   frameId = requestAnimationFrame(tick);
-  renderControls();
   if (shouldSave) saveState();
 }
 
@@ -93,8 +84,16 @@ function stopTimer() {
   elapsedBeforeStart = totalElapsed();
   isRunning = false;
   cancelAnimationFrame(frameId);
-  render();
+  renderTime();
   saveState();
+}
+
+function toggleTimer() {
+  if (isRunning) {
+    stopTimer();
+  } else {
+    startTimer();
+  }
 }
 
 function resetTimer() {
@@ -102,25 +101,25 @@ function resetTimer() {
   startedAt = now();
   isRunning = false;
   cancelAnimationFrame(frameId);
-  render();
+  renderTime();
   saveState();
 }
 
-toggleButton.addEventListener("click", () => {
-  if (isRunning) {
-    stopTimer();
-  } else {
-    startTimer();
-  }
+document.addEventListener("click", () => {
+  window.clearTimeout(clickTimer);
+  clickTimer = window.setTimeout(toggleTimer, CLICK_DELAY_MS);
 });
 
-resetButton.addEventListener("click", resetTimer);
+document.addEventListener("dblclick", (event) => {
+  event.preventDefault();
+  window.clearTimeout(clickTimer);
+  resetTimer();
+});
 
 document.addEventListener("keydown", (event) => {
-  if (event.target instanceof HTMLButtonElement) return;
   if (event.code === "Space") {
     event.preventDefault();
-    toggleButton.click();
+    toggleTimer();
   }
   if (event.key.toLowerCase() === "r") resetTimer();
 });
@@ -137,4 +136,4 @@ if ("serviceWorker" in navigator) {
 }
 
 loadState();
-render();
+renderTime();
