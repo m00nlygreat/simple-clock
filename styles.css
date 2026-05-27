@@ -28,24 +28,27 @@ body {
 .stopwatch {
   display: grid;
   width: 100%;
+  min-height: 100dvh;
   min-width: 0;
-  padding: clamp(8px, 6vw, 24px);
+  padding: 4vw;
   place-items: center;
 }
 
 .time-main {
   display: block;
   width: 100%;
+  max-width: 100%;
   overflow-wrap: anywhere;
   font-variant-numeric: tabular-nums;
-  font-size: clamp(1.55rem, 18vw, 7rem);
+  font-size: min(15vw, 46vh);
   font-weight: 800;
   line-height: 1;
   text-align: center;
+  white-space: nowrap;
 }
 
 @media (max-width: 220px) {
   .time-main {
-    font-size: clamp(1.35rem, 20vw, 2.7rem);
+    font-size: 14vw;
   }
 }
